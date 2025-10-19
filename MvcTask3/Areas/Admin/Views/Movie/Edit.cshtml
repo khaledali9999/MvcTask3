@@ -1,0 +1,120 @@
+﻿@model Movie
+
+@{
+    ViewData["Title"] = "Edit Movie";
+    var categories = ViewBag.Categories as List<MvcTask3.Models.Category>;
+    var cinemas = ViewBag.Cinemas as List<MvcTask3.Models.Cinema>;
+    var actors = ViewBag.Actors as List<MvcTask3.Models.Actor>;
+}
+
+<div class="container mt-4">
+    <h2 class="fw-bold mb-4 text-center">Edit Movie</h2>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data" class="row">
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Movie Name -->
+        <div class="col-md-6 mb-3">
+            <label asp-for="Name" class="form-label fw-semibold"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- Price -->
+        <div class="col-md-6 mb-3">
+            <label asp-for="Price" class="form-label fw-semibold"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <!-- Description -->
+        <div class="col-md-12 mb-3">
+            <label asp-for="Description" class="form-label fw-semibold"></label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <!-- Category -->
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-semibold">Category</label>
+            <select asp-for="CategoryId" class="form-select">
+                <option value="">-- Select Category --</option>
+                @if (categories != null)
+                {
+                    foreach (var cat in categories)
+                    {
+                                <option value="@cat.id" selected="@(cat.id == Model.CategoryId)">
+                            @cat.name
+                                </option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+        <!-- Cinema -->
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-semibold">Cinema</label>
+            <select asp-for="CinemaId" class="form-select">
+                <option value="">-- Select Cinema --</option>
+                @if (cinemas != null)
+                {
+                    foreach (var cin in cinemas)
+                    {
+                                <option value="@cin.Id" selected="@(cin.Id == Model.CinemaId)">
+                            @cin.Name
+                                </option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="CinemaId" class="text-danger"></span>
+        </div>
+
+        <!-- Actors -->
+        <div class="col-md-12 mb-3">
+            <label class="form-label fw-semibold">Actors</label>
+            <select name="SelectedActors" class="form-select" multiple size="6">
+                @if (actors != null)
+                {
+                    foreach (var actor in actors)
+                    {
+                        var isSelected = Model.ActorMovies?.Any(a => a.Id == actor.Id) ?? false;
+                                <option value="@actor.Id" selected="@(isSelected)">
+                            @actor.Name
+                                </option>
+                    }
+                }
+            </select>
+            <div class="form-text text-muted">
+                Hold <strong>Ctrl</strong> (or <strong>Cmd</strong> on Mac) to select multiple actors
+            </div>
+        </div>
+
+        <!-- Main Image -->
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-semibold">Main Image</label>
+            <input type="file" name="img" class="form-control" />
+            <div class="mt-2">
+                <img src="~/images/@Model.MainImg" alt="Current Image" width="150" class="rounded shadow-sm" />
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="col-md-6 mb-3 d-flex align-items-center">
+            <div class="form-check mt-4">
+                <input asp-for="Status" class="form-check-input" />
+                <label asp-for="Status" class="form-check-label">Active</label>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="col-12 mt-4 d-flex justify-content-end gap-3">
+            <a asp-action="Index" class="btn btn-secondary px-4">Cancel</a>
+            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}

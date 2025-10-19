@@ -1,0 +1,46 @@
+﻿@model Cinema
+
+<h2 class="text-center my-3">Edit Cinema</h2>
+
+<div class="card shadow p-4">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label fw-bold"></label>
+            <input asp-for="Name" class="form-control" placeholder="Enter cinema name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label fw-bold"></label>
+            <input asp-for="Description" class="form-control" placeholder="Descriotion" />
+            <span  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Current Image</label>
+            @if (!string.IsNullOrEmpty(Model.Img))
+            {
+                    <div class="mb-2">
+                        <img src="~/images/@Model.Img" alt="Cinema Image" style="width:150px; height:auto;" />
+                    </div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Upload New Image</label>
+            <input type="file" name="img" class="form-control" />
+            <span class="text-muted">Leave empty if you don't want to change the image.</span>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}

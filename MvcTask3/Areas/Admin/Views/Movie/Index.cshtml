@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Movie>
+@{
+    ViewData["Title"] = "Movies List";
+    var categories = ViewBag.Categories as IEnumerable<MvcTask3.Models.Category>;
+    var cinemas = ViewBag.Cinemas as IEnumerable<MvcTask3.Models.Cinema>;
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">🎬 Movies List</h2>
+        <a href="/Admin/Movie/Create" class="btn btn-success px-4">+ Add Movie</a>
+    </div>
+
+    <!-- 🔍 Filter Section -->
+    <form method="get" class="row gy-2 gx-3 align-items-center mb-4">
+        <div class="col-auto">
+            <input type="text" name="name" class="form-control" placeholder="Search by name..." value="@ViewBag.name" />
+        </div>
+
+        <div class="col-auto">
+            <select name="categoryId" class="form-select">
+                <option value="">All Categories</option>
+                @if (categories != null)
+                {
+                    foreach (var cat in categories)
+                    {
+                        <option value="@cat.id" selected="@(ViewBag.categoryId == cat.id)">
+                            @cat.name
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="col-auto">
+            <select name="cinemaId" class="form-select">
+                <option value="">All Cinemas</option>
+                @if (cinemas != null)
+                {
+                    foreach (var cin in cinemas)
+                    {
+                        <option value="@cin.Id" selected="@(ViewBag.cinemaId == cin.Id)">
+                            @cin.Name
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </form>
+
+    <!-- 🎞 Movies Table -->
+    <table class="table table-bordered table-striped align-middle text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Poster</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Cinema</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int i = 1;
+                foreach (var movie in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>
+                            <img src="~/images/@movie.MainImg" alt="Movie Poster" width="80" height="90" style="object-fit:cover;border-radius:8px;" />
+                        </td>
+                        <td>@movie.Name</td>
+                        <td>@movie.Category?.name</td>
+                        <td>@movie.Cinema?.Name</td>
+                        <td>@movie.Price.ToString("C")</td>
+                        <td>
+                            @if (movie.Status)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inactive</span>
+                            }
+                        </td>
+                        <td>@movie.dateTime.ToShortDateString()</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-warning btn-sm">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="9" class="text-muted text-center">No movies found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    
+    @if (ViewBag.TotalPages != null && ViewBag.TotalPages > 1)
+    {
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                @for (int p = 1; p <= (int)ViewBag.TotalPages; p++)
+                {
+                    <li class="page-item @(p == (int)ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="?page=@p&name=@ViewBag.name&categoryId=@ViewBag.categoryId&cinemaId=@ViewBag.cinemaId">@p</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+</div>

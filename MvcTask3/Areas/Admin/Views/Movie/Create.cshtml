@@ -1,0 +1,126 @@
+﻿@model Movie
+@{
+    ViewData["Title"] = "Add Movie";
+    var categories = ViewBag.Categories as IEnumerable<MvcTask3.Models.Category>;
+    var cinemas = ViewBag.Cinemas as IEnumerable<MvcTask3.Models.Cinema>;
+    var actors = ViewBag.Actors as IEnumerable<MvcTask3.Models.Actor>;
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4 fw-bold text-primary">🎬 Add New Movie</h2>
+
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <!-- Name -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Name" class="form-label fw-semibold">Movie Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter movie name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- Price -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Price" class="form-label fw-semibold">Price</label>
+                    <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="Enter ticket price" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="col-md-12 mb-3">
+                    <label asp-for="Description" class="form-label fw-semibold">Description</label>
+                    <textarea asp-for="Description" rows="3" class="form-control" placeholder="Enter movie description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Category</label>
+                    <select asp-for="CategoryId" class="form-select">
+                        <option value="">-- Select Category --</option>
+                        @if (categories != null)
+                        {
+                            foreach (var cat in categories)
+                            {
+                                        <option value="@cat.id">@cat.name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <!-- Cinema -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Cinema</label>
+                    <select asp-for="CinemaId" class="form-select">
+                        <option value="">-- Select Cinema --</option>
+                        @if (cinemas != null)
+                        {
+                            foreach (var cin in cinemas)
+                            {
+                                        <option value="@cin.Id">@cin.Name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="CinemaId" class="text-danger"></span>
+                </div>
+
+                <!-- Actors -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Actors</label>
+                    <select name="SelectedActors" class="form-select" multiple>
+                        <option disabled>-- Select Actors --</option>
+                        @if (actors != null)
+                        {
+                            foreach (var actor in actors)
+                            {
+                                <option value="@actor.Id">@actor.Name</option>
+                            }
+                        }
+                    </select>
+                    <div class="form-text text-muted">
+                        Hold <strong>Ctrl</strong> (or <strong>Cmd</strong> on Mac) to select multiple actors
+                    </div>
+                </div>
+
+
+
+
+
+                <!-- Main Image -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Main Poster</label>
+                    <input type="file" name="img" accept="image/*" class="form-control" />
+                </div>
+
+                <!-- Sub Images -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Sub Images</label>
+                    <input type="file" name="subImgs" multiple accept="image/*" class="form-control" />
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Status</label>
+                    <select asp-for="Status" class="form-select">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+
+                <!-- Date -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="dateTime" class="form-label fw-semibold">Release Date</label>
+                    <input asp-for="dateTime" type="date" class="form-control" />
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end mt-4">
+                <a asp-action="Index" class="btn btn-secondary me-3 px-4">Cancel</a>
+                <button type="submit" class="btn btn-success px-4">Add Movie</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

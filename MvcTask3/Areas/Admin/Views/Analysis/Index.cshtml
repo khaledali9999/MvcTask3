@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    var latestMovies = ViewBag.LatestMovies as List<MvcTask3.Models.Movie>;
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 fw-bold text-center">🎬 Dashboard - Movie Statistics</h2>
+
+    <div class="row text-center mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white shadow p-3">
+                <h5>Total Movies</h5>
+                <h2>@ViewBag.TotalMovies</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white shadow p-3">
+                <h5>Active Movies</h5>
+                <h2>@ViewBag.ActiveMovies</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white shadow p-3">
+                <h5>Inactive Movies</h5>
+                <h2>@ViewBag.InactiveMovies</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-dark shadow p-3">
+                <h5>Avg Price</h5>
+                <h2>$@ViewBag.AvgPrice.ToString("0.00")</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center mb-4">
+        <div class="col-md-4">
+            <div class="card bg-secondary text-white shadow p-3">
+                <h5>Total Cinemas</h5>
+                <h2>@ViewBag.TotalCinemas</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info text-white shadow p-3">
+                <h5>Total Actors</h5>
+                <h2>@ViewBag.TotalActors</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-dark text-white shadow p-3">
+                <h5>Total Categories</h5>
+                <h2>@ViewBag.TotalCategories</h2>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="fw-semibold mt-5 mb-3">🎞️ Latest Added Movies</h4>
+    <table class="table table-bordered table-striped text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Cinema</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (latestMovies != null && latestMovies.Any())
+            {
+                foreach (var movie in latestMovies)
+                {
+                    <tr>
+                        <td>@movie.Name</td>
+                        <td>@movie.Category?.name</td>
+                        <td>@movie.Cinema?.Name</td>
+                        <td>$@movie.Price</td>
+                        <td>
+                            @if (movie.Status)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inactive</span>
+                            }
+                        </td>
+                        <td>@movie.dateTime.ToShortDateString()</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6" class="text-muted">No movies found</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

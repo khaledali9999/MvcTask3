@@ -1,0 +1,27 @@
+﻿@model Actor
+
+<h2 class="text-center my-3">Add New Actor</h2>
+
+<div class="card shadow p-4 mx-auto" style="max-width: 600px;">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label fw-bold">Actor Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter actor name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="img" class="form-label fw-bold">Actor Image</label>
+            <input type="file" name="img" class="form-control" />
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <button type="submit" class="btn btn-primary">Save Actor</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}
