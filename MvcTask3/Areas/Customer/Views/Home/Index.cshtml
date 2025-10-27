@@ -1,0 +1,92 @@
+﻿
+@model IEnumerable<MvcTask3.Models.Movie>
+
+@{
+    var cinemas = ViewBag.Cinemas as IEnumerable<MvcTask3.Models.Cinema> ?? Enumerable.Empty<MvcTask3.Models.Cinema>();
+    var categories = ViewBag.Categories as IEnumerable<MvcTask3.Models.Category> ?? Enumerable.Empty<MvcTask3.Models.Category>();
+}
+
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4 text-white">🎬 قائمة الأفلام</h2>
+
+   
+    <form method="get" class="row justify-content-center mb-4">
+        <div class="col-md-4">
+            <select name="cinemaId" class="form-select">
+                <option value="">🎥 اختر السينما</option>
+                @foreach (var cinema in cinemas)
+                {
+                    <option value="@cinema.Id" @(ViewBag.SelectedCinema == cinema.Id ? "selected" : "")>
+                        @cinema.Name
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <select name="categoryId" class="form-select">
+                <option value="">🎭 اختر الكاتجوري</option>
+                @foreach (var category in categories)
+                {
+                    <option value="@category.id" @(ViewBag.SelectedCategory == category.id ? "selected" : "")>
+                        @category.name
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-2 filter">
+            <button type="submit" class="btn btn-primary w-100 text-white">فلتر</button>
+        </div>
+    </form>
+
+    <!-- 🎞️ عرض الأفلام -->
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var movie in Model)
+            {
+                <div class="col-md-4 mb-4 show">
+                    <div class="card shadow-sm bg-dark ">
+                        <img src="~/images/@movie.MainImg" class="card-img-top" alt="@movie.Name"
+                             style="width:100%; height:300px; object-fit:cover; border-radius:8px;" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@movie.Name</h5>
+                            <p class="card-text mb-2 text-white">
+                                🎭 @movie.Category?.name <br />
+                                🏢 @movie.Cinema?.Name
+                            </p>
+                            <a href="@Url.Action("Details", "Home", new { id = movie.Id })"
+                               class="btn  btn-sm">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="text-center text-muted mt-5">
+                <h5>لا توجد أفلام مطابقة للفلتر 😢</h5>
+            </div>
+        }
+    </div>
+
+ 
+    @if (ViewBag.TotalPages > 1)
+    {
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link m-1"
+                           href="?page=@i&cinemaId=@ViewBag.SelectedCinema&categoryId=@ViewBag.SelectedCategory">
+                            @i
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+</div>

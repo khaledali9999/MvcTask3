@@ -159,21 +159,30 @@ namespace MvcTask3.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
         public IActionResult Delete(int id)
         {
-            var movie = _context.Movies.FirstOrDefault(e => e.Id == id);
+            var movie = _context.Movies.Include(m => m.ActorMovies).FirstOrDefault(x => x.Id == id);
             if (movie == null)
-                return RedirectToAction("NotFoundPage", "Home");
+                return NotFound();
 
-            var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", movie.MainImg);
-            if (System.IO.File.Exists(oldPath))
-                System.IO.File.Delete(oldPath);
+            // حذف الصورة
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", movie.MainImg);
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+
+            // حذف العلاقات
+            var subImgs = _context.MovieSubImages.Where(s => s.MovieId == id);
+            _context.MovieSubImages.RemoveRange(subImgs);
+
+          
 
             _context.Movies.Remove(movie);
             _context.SaveChanges();
 
-            TempData["Notification"] = "Movie deleted successfully!";
+            TempData["Notification"] = "🗑️ Movie deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

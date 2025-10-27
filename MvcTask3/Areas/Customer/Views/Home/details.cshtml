@@ -1,0 +1,12 @@
+﻿@model MvcTask3.Models.Movie
+
+<div class="card ">
+    <img src="~/images/@Model.MainImg" class="card-img-top w-100" style="width: 100%; max-width: 800px;" alt="@Model.Name" />
+    <div class="card-body bg-dark">
+        <h2>@Model.Name</h2>
+        <p><strong>التصنيف:</strong> @Model.Category?.name</p>
+        <p><strong>السينما:</strong> @Model.Cinema?.Name</p>
+        <p><strong>الوصف:</strong> @Model.Description</p>
+        <a href="@Url.Action("Index")" class="btn btn-secondary mt-3">رجوع</a>
+    </div>
+</div>

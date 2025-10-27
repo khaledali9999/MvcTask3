@@ -1,0 +1,48 @@
+﻿body {
+    background-color: #0f1a20;
+    font-family: 'Tajawal', sans-serif;
+}
+td {
+    color: #1abc9c;
+}
+h5 {
+    color: #1abc9c;
+}
+p {
+    color: #1abc9c;
+}
+.card {
+    color: #1abc9c;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+    .card a {
+        color: #1abc9c;
+    }
+    .card p {
+        color: #1abc9c;
+    }
+.filter button {
+    padding: 12px 25px;
+    background-color: rgba(26, 188, 156, 0.1);
+    border: 2px solid #1abc9c;
+    border-radius: 30px;
+    color: #1abc9c;
+    font-weight: bold;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+    .filter button:hover {
+        padding: 12px 25px;
+        background-color: rgba(26, 188, 156, 0.1);
+        border: 2px solid #1abc9c;
+        border-radius: 30px;
+        color: #1abc9c;
+        font-weight: bold;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+.show a {
+    background-color: rgba(26, 188, 156, 0.1);
+    border: 2px solid #1abc9c;
+}

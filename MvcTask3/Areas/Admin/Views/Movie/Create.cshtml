@@ -8,7 +8,7 @@
 
 <div class="container mt-5">
     <div class="card shadow-lg p-4">
-        <h2 class="text-center mb-4 fw-bold text-primary">🎬 Add New Movie</h2>
+        <h2 class="text-center mb-4 fw-bold text-primary"> Add New Movie</h2>
 
         <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div class="row">
@@ -65,11 +65,10 @@
                     <span asp-validation-for="CinemaId" class="text-danger"></span>
                 </div>
 
-                <!-- Actors -->
                 <div class="col-md-6 mb-3">
                     <label class="form-label fw-semibold">Actors</label>
                     <select name="SelectedActors" class="form-select" multiple>
-                        <option disabled>-- Select Actors --</option>
+                        <option disabled selected>-- Select Actors --</option>
                         @if (actors != null)
                         {
                             foreach (var actor in actors)
@@ -78,10 +77,13 @@
                             }
                         }
                     </select>
-                    <div class="form-text text-muted">
+
+                    <small class="form-text text-muted">
                         Hold <strong>Ctrl</strong> (or <strong>Cmd</strong> on Mac) to select multiple actors
-                    </div>
+                    </small>
                 </div>
+
+
 
 
 
