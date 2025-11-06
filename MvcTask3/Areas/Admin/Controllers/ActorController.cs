@@ -8,7 +8,13 @@ namespace MvcTask3.Areas.Admin.Controllers
     [Area("Admin")]
     public class ActorController : Controller
     {
-        ApplicationDbContext _context = new();
+        private readonly ApplicationDbContext _context;
+
+        public ActorController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             var Actor = _context.Actors.AsNoTracking().AsQueryable();

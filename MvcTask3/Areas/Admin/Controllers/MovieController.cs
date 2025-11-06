@@ -8,9 +8,13 @@ namespace MvcTask3.Areas.Admin.Controllers
     [Area("Admin")]
     public class MovieController : Controller
     {
-        private readonly ApplicationDbContext _context = new();
+        private readonly ApplicationDbContext _context;
 
-       
+        public MovieController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index(string? name, int? categoryId, int? cinemaId, int page = 1)
         {
             var movies = _context.Movies

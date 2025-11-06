@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MvcTask3.DataAccses;
+using MvcTask3.Models;
 using MvcTask3.Repos;
 
 namespace MvcTask3
@@ -17,7 +19,20 @@ namespace MvcTask3
             builder.Services.AddDbContext<ApplicationDbContext>();
 
             // ✅ تسجيل الـ Repository
-            builder.Services.AddScoped(typeof(Repository<>));
+           
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
+            {
+                option.User.RequireUniqueEmail = true;
+                option.Password.RequiredLength = 8;
+                option.Password.RequireNonAlphanumeric = false;
+            }
+
+
+            )
+                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                 .AddDefaultTokenProviders();
 
             var app = builder.Build();
 

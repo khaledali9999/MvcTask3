@@ -10,7 +10,12 @@ namespace MvcTask3.Areas.Admin.Controllers
 
     public class CategoryController : Controller
     {
-        ApplicationDbContext _context = new();
+        private readonly ApplicationDbContext _context;
+
+        public CategoryController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
             var categories = _context.Categories.AsNoTracking().AsQueryable();

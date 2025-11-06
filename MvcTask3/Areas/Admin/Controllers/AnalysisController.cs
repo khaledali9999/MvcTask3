@@ -7,7 +7,12 @@ namespace MvcTask3.Areas.Admin.Controllers
     [Area("Admin")]
     public class AnalysisController : Controller
     {
-        private readonly ApplicationDbContext _context = new();
+        private readonly ApplicationDbContext _context;
+
+        public AnalysisController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public IActionResult Index()
         {
