@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MvcTask3.DataAccses;
+using MvcTask3.Utilites;
 using System.Linq;
 
 namespace MvcTask3.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize($"{SD.SUPER_ADMIN_ROLE}, {SD.ADMIN_ROLE}")]
+
     public class AnalysisController : Controller
     {
         private readonly ApplicationDbContext _context;

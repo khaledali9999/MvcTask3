@@ -1,62 +1,68 @@
 ﻿@model MvcTask3.ViewModels.RegisterVM
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "إنشاء حساب";
 }
 
-<div class="container">
-    <h1>Register</h1>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 85vh;">
+    <div class="card shadow-lg p-4" style="width: 450px; border-radius: 20px;">
 
-    <h4>RegisterVM</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Register">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="FirstName" class="control-label"></label>
-                    <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LastName" class="control-label"></label>
-                    <input asp-for="LastName" class="form-control" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="UserName" class="control-label"></label>
-                    <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PasswordConfirmed" class="control-label"></label>
-                    <input asp-for="PasswordConfirmed" class="form-control" />
-                    <span asp-validation-for="PasswordConfirmed" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary text-b mt-3" />
-                </div>
-            </form>
+        <h2 class="text-center mb-3" style="font-weight:700;">إنشاء حساب جديد</h2>
+        <p class="text-center text-muted mb-4">قم بملء البيانات التالية للتسجيل</p>
+
+        <form asp-action="Register">
+
+            <div asp-validation-summary="ModelOnly" class="text-primary mb-3"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="FirstName" class="form-label fw-bold"></label>
+                <input asp-for="FirstName" class="form-control rounded-3" />
+                <span asp-validation-for="FirstName" class="text-primary"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="LastName" class="form-label fw-bold"></label>
+                <input asp-for="LastName" class="form-control rounded-3" />
+                <span asp-validation-for="LastName" class="text-"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="form-label fw-bold"></label>
+                <input asp-for="Email" class="form-control rounded-3" />
+                <span asp-validation-for="Email" class="text-primary"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="UserName" class="form-label fw-bold"></label>
+                <input asp-for="UserName" class="form-control rounded-3" />
+                <span asp-validation-for="UserName" class="text-primary"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Password" class="form-label fw-bold"></label>
+                <input asp-for="Password" class="form-control rounded-3" />
+                <span asp-validation-for="Password" class="text-primary"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="PasswordConfirmed" class="form-label fw-bold"></label>
+                <input asp-for="PasswordConfirmed" class="form-control rounded-3" />
+                <span asp-validation-for="PasswordConfirmed" class="text-primary"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 rounded-3 fw-bold">
+                إنشاء الحساب
+            </button>
+
+        </form>
+
+        <div class="text-center mt-4">
+            <a asp-action="Login" class="text-decoration-none fw-bold">لديك حساب بالفعل؟ تسجيل الدخول</a>
         </div>
-    </div>
 
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div><div>
-        <a asp-action="Login">Login</a>
     </div>
-
 </div>
+
 @* @section Scripts { *@
 @*     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} *@
 @* } *@

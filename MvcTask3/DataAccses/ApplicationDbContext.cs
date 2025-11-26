@@ -1,6 +1,8 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MvcTask3.DataAccses.Configration;
 using MvcTask3.Models;
 using MvcTask3.ViewModels;
 
@@ -18,17 +20,41 @@ namespace MvcTask3.DataAccses
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieSubImage> MovieSubImages { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
 
 
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\ProjectModels;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            modelBuilder.ApplyConfiguration(new CartEntityTypeConfiguration());
+            base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Entity<Cart>()
+            //      .HasKey(c => new { c.ApplicationUserId, c.MovieId });
+
+            //modelBuilder.Entity<Cart>()
+            //    .HasOne(c => c.ApplicationUser)
+            //    .WithMany()
+            //    .HasForeignKey(c => c.ApplicationUserId);
+
+            //modelBuilder.Entity<Cart>()
+            //    .HasOne(c => c.Movie)
+            //    .WithMany()
+            //    .HasForeignKey(c => c.MovieId);
+
+
+
+
+
+
+
+
         }
-        public DbSet<MvcTask3.ViewModels.RegisterVM> RegisterVM { get; set; } = default!;
-        public DbSet<MvcTask3.ViewModels.LoginVM> LoginVM { get; set; } = default!;
+        // Seed Roles
+
+
+
     }
 }

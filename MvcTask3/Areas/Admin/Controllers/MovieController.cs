@@ -1,11 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MvcTask3.DataAccses;
 using MvcTask3.Models;
+using MvcTask3.Utilites;
 
 namespace MvcTask3.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "SuperAdmin")]
+
+
+
     public class MovieController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,7 +30,7 @@ namespace MvcTask3.Areas.Admin.Controllers
                 .Include(m => m.ActorMovies)
                 .AsQueryable();
 
-            
+
             if (!string.IsNullOrWhiteSpace(name))
             {
                 movies = movies.Where(m => m.Name.Contains(name.Trim()));
@@ -42,19 +49,19 @@ namespace MvcTask3.Areas.Admin.Controllers
                 ViewBag.cinemaId = cinemaId;
             }
 
-            
+
             ViewBag.TotalPages = Math.Ceiling(movies.Count() / 8.0);
             ViewBag.CurrentPage = page;
             movies = movies.Skip((page - 1) * 8).Take(8);
 
-            
+
             ViewBag.Categories = _context.Categories.ToList();
             ViewBag.Cinemas = _context.Cinemas.ToList();
 
             return View(movies.AsEnumerable());
         }
 
-        
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -64,11 +71,13 @@ namespace MvcTask3.Areas.Admin.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         public IActionResult Create(Movie movie, IFormFile img, List<IFormFile>? subImgs)
         {
-            
+          
+
+
             if (img is not null && img.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(img.FileName);
@@ -82,7 +91,7 @@ namespace MvcTask3.Areas.Admin.Controllers
             _context.Movies.Add(movie);
             _context.SaveChanges();
 
-            
+
             if (subImgs is not null && subImgs.Count > 0)
             {
                 foreach (var item in subImgs)
@@ -90,7 +99,7 @@ namespace MvcTask3.Areas.Admin.Controllers
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(item.FileName);
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/movies");
 
-                   
+
                     if (!Directory.Exists(folderPath))
                         Directory.CreateDirectory(folderPath);
 
@@ -114,7 +123,7 @@ namespace MvcTask3.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        
+
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -129,7 +138,7 @@ namespace MvcTask3.Areas.Admin.Controllers
             return View(movie);
         }
 
-        
+
         [HttpPost]
         public IActionResult Edit(Movie movie, IFormFile? img)
         {
@@ -144,7 +153,7 @@ namespace MvcTask3.Areas.Admin.Controllers
                 using (var stream = System.IO.File.Create(filePath))
                     img.CopyTo(stream);
 
-                
+
                 var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", movieInDb.MainImg);
                 if (System.IO.File.Exists(oldPath))
                     System.IO.File.Delete(oldPath);

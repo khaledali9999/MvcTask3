@@ -11,6 +11,7 @@ h5 {
 p {
     color: #1abc9c;
 }
+
 .card {
     color: #1abc9c;
     border-radius: 30px;
@@ -46,3 +47,22 @@ p {
     background-color: rgba(26, 188, 156, 0.1);
     border: 2px solid #1abc9c;
 }
+.hero {
+    display:flex;
+    justify-content:center;
+    position: relative;
+    height: 900px;
+/*    min-height: 600px;*/
+    align-items: center;
+    margin-top: 85px;
+    margin-bottom: 50px;
+/*    background-color:seagreen;*/
+   
+}
+.hero .hero-content{
+   height:300px;
+    
+}
+    .hero .hero-content p{
+        color:white;
+    }

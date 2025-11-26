@@ -12,8 +12,8 @@ using MvcTask3.DataAccses;
 namespace MvcTask3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251101144443_AddIdentityTables")]
-    partial class AddIdentityTables
+    [Migration("20251126175823_khalede")]
+    partial class khalede
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -260,6 +260,24 @@ namespace MvcTask3.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("MvcTask3.Models.Cart", b =>
+                {
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.HasKey("MovieId", "ApplicationUserId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("MvcTask3.Models.Category", b =>
                 {
                     b.Property<int>("id")
@@ -435,6 +453,25 @@ namespace MvcTask3.Migrations
                     b.HasOne("MvcTask3.Models.Movie", null)
                         .WithMany("ActorMovies")
                         .HasForeignKey("MovieId");
+                });
+
+            modelBuilder.Entity("MvcTask3.Models.Cart", b =>
+                {
+                    b.HasOne("MvcTask3.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MvcTask3.Models.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("MvcTask3.Models.Movie", b =>

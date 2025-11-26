@@ -7,58 +7,140 @@
 }
 
 
-<div class="container mt-4">
-    <h2 class="text-center mb-4 text-white">🎬 قائمة الأفلام</h2>
+<style>
+    /* 🌟 الهيرو */
+    .hero {
+        background: linear-gradient( to right, rgba(46, 139, 87, 0.8), /* seagreen شفاف */
+        rgba(46, 139, 87, 0.8) /* نفس اللون شفاف */
+        ), url('/images/bg.jpg') center/cover no-repeat;
+        color: white;
+        padding: 80px 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 35px;
+    }
 
-   
-    <form method="get" class="row justify-content-center mb-4">
-        <div class="col-md-4">
-            <select name="cinemaId" class="form-select">
-                <option value="">🎥 اختر السينما</option>
-                @foreach (var cinema in cinemas)
-                {
-                    <option value="@cinema.Id" @(ViewBag.SelectedCinema == cinema.Id ? "selected" : "")>
-                        @cinema.Name
-                    </option>
-                }
-            </select>
-        </div>
 
-        <div class="col-md-4">
-            <select name="categoryId" class="form-select">
-                <option value="">🎭 اختر الكاتجوري</option>
-                @foreach (var category in categories)
-                {
-                    <option value="@category.id" @(ViewBag.SelectedCategory == category.id ? "selected" : "")>
-                        @category.name
-                    </option>
-                }
-            </select>
-        </div>
 
-        <div class="col-md-2 filter">
-            <button type="submit" class="btn btn-primary w-100 text-white">فلتر</button>
-        </div>
-    </form>
+
+    .hero-content h1 {
+        font-size: 48px;
+        font-weight: 700;
+        color: white; /* سماوي */
+    }
+
+    .hero-content .tagline {
+        font-size: 20px;
+        margin-top: 10px;
+        opacity: 0.9;
+        color: #cffff8;
+    }
+
+    /* 🎚️ الفلاتر */
+    .filter-item {
+        border-radius: 20px;
+        padding: 8px 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+        border-color: seagreen !important;
+        color: seagreen !important;
+    }
+
+        .filter-item:hover,
+        .filter-item.active {
+            background: seagreen !important; /* سماوي */
+            color: white !important;
+            border-color: #seagreen !important;
+            // box-shadow: 0 0 10px rgba(0, 255, 234, 0.6);
+        }
+
+    a.zorzr{
+        padding-right:20px;
+        padding-left:20px;
+        width:30px;
+    }
+
+    .btn-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 12px; /* مسافة بسيطة بينهم */
+        margin-top: 15px;
+    }
+
+    .movie-btn {
+        min-width: 150px; /* طول ثابت */
+        padding: 10px 0; /* عرض ثابت */
+        background: seagreen;
+        color: #fff;
+        text-align: center;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.3s ease;
+        display: inline-block;
+    }
+
+</style>
+
+<div class="film container mt-4">
+
+    <!-- 🎬 Hero -->
+    <div class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>اكتشف عالمنا الرقمي</h1>
+                <p class="tagline">أكبر مكتبة عربية للأفلام، المسلسلات، الكتب والبرامج بجودة عالية</p>
+                <div id="view-full"></div>
+            </div>
+        </section>
+    </div>
+
+    <h2 class="text-center mb-4 text-white">أحدث الإضافات </h2>
+
+    <!-- 🎚️ الفلاتر -->
+    <div class="filter mb-4 text-center">
+        <span class="filter-item mx-1 @(ViewBag.SelectedCategory == null ? "active" : "")" data-category="">
+            كل الكاتجوري
+        </span>
+
+        @foreach (var category in categories)
+        {
+            <span class="filter-item mx-1 @(ViewBag.SelectedCategory == category.id ? "active" : "")"
+                  data-category="@category.id">
+                @category.name
+            </span>
+        }
+    </div>
+
+
+
 
     <!-- 🎞️ عرض الأفلام -->
-    <div class="row">
+    <div class="row movie-list">
         @if (Model != null && Model.Any())
         {
             foreach (var movie in Model)
             {
-                <div class="col-md-4 mb-4 show">
-                    <div class="card shadow-sm bg-dark ">
-                        <img src="~/images/@movie.MainImg" class="card-img-top" alt="@movie.Name"
-                             style="width:100%; height:300px; object-fit:cover; border-radius:8px;" />
-                        <div class="card-body text-center">
-                            <h5 class="card-title">@movie.Name</h5>
-                            <p class="card-text mb-2 text-white">
-                                🎭 @movie.Category?.name <br />
-                                🏢 @movie.Cinema?.Name
+                <div class="col-md-4 mb-4 movie-item">
+                    <div class="movie-card shadow-sm">
+                        <img src="~/images/@movie.MainImg" class="movie-img" alt="@movie.Name" />
+                        <div class="movie-body text-center">
+                            <h5 class="movie-title">@movie.Name</h5>
+                            <p class="movie-info mb-2 text-light">
+                                 @movie.Category?.name <br />
+                                 @movie.Cinema?.Name
                             </p>
-                            <a href="@Url.Action("Details", "Home", new { id = movie.Id })"
-                               class="btn  btn-sm">عرض التفاصيل</a>
+                            <div class="btn-wrapper">
+                                <a href="@Url.Action("Details", "Home", new { id = movie.Id })" class="movie-btn">
+                                    عرض التفاصيل
+                                </a>
+
+                                <a href="@Url.Action("Details", "Home", new { id = movie.Id })" class="movie-btn">
+                                    حجز
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -66,11 +148,79 @@
         }
         else
         {
-            <div class="text-center text-muted mt-5">
+            <div class="text-center text-light mt-5">
                 <h5>لا توجد أفلام مطابقة للفلتر 😢</h5>
             </div>
         }
     </div>
+
+    <style>
+        /* 🎞️ كروت الأفلام */
+        .movie-card {
+            background: #111;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 0.1px solid #2e8b67;
+        }
+
+            .movie-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 10px 25px rgba(46, 139, 87, 0.5); /* seagreen ظل */
+            }
+
+        .movie-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .movie-body {
+            padding: 15px;
+            background: #0f1a20;
+        }
+
+        .movie-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2e8b57; /* seagreen */
+        }
+
+        .movie-info {
+            font-size: 14px;
+        }
+
+        .movie-btn {
+            background: #2e8b57; /* seagreen */
+            color: #fff;
+            border-radius: 20px;
+            padding: 7px 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        a{
+            text-decoration:none;
+
+        }
+
+            .movie-btn:hover {
+                background: #246b45; /* درجة أغمق عند التمرير */
+                color:white;
+            }
+
+            .movie-btn:active{
+                background: #2e8b57; /* seagreen */
+                color: #fff;
+                border-radius: 20px;
+                padding: 7px 16px;
+                font-weight: bold;
+                transition: background 0.3s;
+            }
+
+    </style>
+
+
 
  
     @if (ViewBag.TotalPages > 1)
@@ -90,3 +240,18 @@
         </nav>
     }
 </div>
+<script>
+    document.querySelectorAll('.filter-item').forEach(item => {
+        item.addEventListener('click', function () {
+            const cinemaId = this.dataset.cinema || '';
+            const categoryId = this.dataset.category || '';
+
+            // إعادة التوجيه مع QueryString
+            const url = new URL(window.location.href);
+            if (cinemaId !== undefined) url.searchParams.set('cinemaId', cinemaId);
+            if (categoryId !== undefined) url.searchParams.set('categoryId', categoryId);
+
+            window.location.href = url.toString();
+        });
+    });
+</script>

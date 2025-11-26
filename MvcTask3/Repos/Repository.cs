@@ -55,6 +55,25 @@ namespace MvcTask3.Repos
 
             return await entities.ToListAsync(cancellationToken);
         }
+        public async Task<List<T>> GetAllAsync(
+    Expression<Func<T, bool>>? filter = null,
+    List<Expression<Func<T, object>>>? includes = null,
+    CancellationToken cancellationToken = default)
+        {
+            IQueryable<T> query = _dbSet;
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                    query = query.Include(include);
+            }
+
+            return await query.ToListAsync(cancellationToken);
+        }
+
 
         public async Task<T?> GetOneAsync(
             Expression<Func<T, bool>>? expression = null,

@@ -4,44 +4,51 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="container">
-    <h1>Login</h1>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background: #f4f6f9;">
+    <div class="card shadow-lg p-4" style="width: 380px; border-radius: 20px;">
 
-<h4>LoginVM</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+        <h2 class="text-center mb-4" style="font-weight: 700;">تسجيل الدخول</h2>
+
         <form asp-action="Login">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserNameOrEmail" class="control-label"></label>
-                <input asp-for="UserNameOrEmail" class="form-control" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+            <!-- Username/Email -->
+            <div class="mb-3">
+                <label asp-for="UserNameOrEmail" class="form-label fw-bold"></label>
+                <input asp-for="UserNameOrEmail" class="form-control form-control-lg" placeholder="اسم المستخدم أو الإيميل" />
                 <span asp-validation-for="UserNameOrEmail" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label fw-bold"></label>
+                <input asp-for="Password" type="password" class="form-control form-control-lg" placeholder="كلمة المرور" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
-                </label>
+
+            <!-- Remember me -->
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="RememberMe" />
+                <label class="form-check-label fw-bold" asp-for="RememberMe"></label>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary mt-3" />
-            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-primary w-100 btn-lg" style="border-radius: 10px;">
+                تسجيل الدخول
+            </button>
+
         </form>
+
+        <hr>
+
+        <div class="text-center">
+            <a asp-action="Register" class="text-decoration-none fw-bold">إنشاء حساب جديد</a>
+        </div>
+
+        <div class="text-center mt-2">
+            <a asp-action="Index" class="text-decoration-none">العودة للصفحة الرئيسية</a>
+        </div>
+
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div><div>
-        <a asp-action="Register">Register</a>
-</div>
-
-</div>
-@* @section Scripts { *@
-@*     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} *@
-@* } *@

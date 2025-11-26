@@ -1,12 +1,167 @@
 ﻿@model MvcTask3.Models.Movie
 
-<div class="card ">
-    <img src="~/images/@Model.MainImg" class="card-img-top w-100" style="width: 100%; max-width: 800px;" alt="@Model.Name" />
-    <div class="card-body bg-dark">
-        <h2>@Model.Name</h2>
-        <p><strong>التصنيف:</strong> @Model.Category?.name</p>
-        <p><strong>السينما:</strong> @Model.Cinema?.Name</p>
-        <p><strong>الوصف:</strong> @Model.Description</p>
-        <a href="@Url.Action("Index")" class="btn btn-secondary mt-3">رجوع</a>
+<style>
+    /* 🌿 الحاوية الأساسية للفيلم */
+    .movie-details-section {
+        max-width: 1100px;
+        margin: 50px auto;
+    }
+
+    .movie-details-card {
+        border-radius: 15px;
+        overflow: hidden;
+        background: #f9f9f9; /* خلفية فاتحة */
+        box-shadow: 0 10px 30px rgba(46, 139, 87, 0.15); /* ظل خفيف seagreen */
+        transition: 0.3s;
+    }
+
+        .movie-details-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(46, 139, 87, 0.25);
+        }
+
+        .movie-details-card img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            border-bottom: 4px solid seagreen;
+        }
+
+    .movie-details-body {
+        padding: 30px;
+        color: #333;
+    }
+
+        .movie-details-body h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: seagreen;
+            margin-bottom: 15px;
+        }
+
+        .movie-details-body p {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .movie-details-body strong {
+            color: seagreen;
+        }
+
+    .btn-cart {
+        background: seagreen;
+        color: #fff;
+        padding: 10px 25px;
+        border-radius: 25px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: 0.3s;
+        margin-top: 15px;
+        border: none;
+    }
+
+        .btn-cart:hover {
+            background: #246b45; /* أخضر غامق */
+            color: #fff;
+        }
+
+    /* 💡 Related Products */
+    .related-card {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(46, 139, 87, 0.15);
+        transition: 0.3s;
+        background: #fff;
+    }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(46, 139, 87, 0.25);
+        }
+
+        .related-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .related-card .card-body h5 {
+            color: seagreen;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .related-card .btn {
+            background: seagreen;
+            color: #fff;
+            border-radius: 25px;
+            padding: 5px 15px;
+            font-weight: bold;
+        }
+
+            .related-card .btn:hover {
+                background: #246b45;
+            }
+</style>
+
+<section class="movie-details-section">
+    <div class="container">
+        <div class="row gx-5 align-items-center">
+            <!-- صورة الفيلم -->
+            <div class="col-md-6 mb-4 mb-md-0">
+                <div class="movie-details-card">
+                    <img src="~/images/@Model.MainImg" alt="@Model.Name" />
+                </div>
+            </div>
+
+            <!-- بيانات الفيلم -->
+            <div class="col-md-6">
+                <div class="movie-details-body">
+                    <h1>@Model.Name</h1>
+
+                    <p class="text-light"><strong>السينما:</strong> @Model.Cinema?.Name</p>
+
+                    <div class=" mb-1 text-light"><strong>التصنيف:</strong> @Model.Category?.name</div>
+                    <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post">
+                        <input type="hidden" name="MovieId" value="@Model.Id" />
+                        <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" name="count" style="max-width: 3rem" />
+                        <button class="btn btn-outline-dark flex-shrink-0 mt-3" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Add to cart
+                        </button>
+                    </form>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        <div class="mt-5">
+            <h2 class="fw-bolder mb-4 text-light">افلام مفترحه</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                @* @foreach (var item in Model.Cinema) *@
+                @* { *@
+                @*     <div class="col mb-4"> *@
+                @*         <div class="related-card card h-100"> *@
+                @*             <img class="card-img-top" src="~/images/@item.MainImg" alt="@item.Name" /> *@
+                @*             <div class="card-body text-center"> *@
+                @*                 <h5>@item.Name</h5> *@
+                @*                 <span class="text-muted text-decoration-line-through">@item.Price.ToString("c")</span> *@
+                @*                 <span>@((item.Price - (item.Price * item.Discount / 100)).ToString("c"))</span> *@
+                @*             </div> *@
+                @*             <div class="card-footer p-3 bg-transparent border-top-0 text-center"> *@
+                @*                 <a href="#" class="btn">Add to cart</a> *@
+                @*             </div> *@
+                @*         </div> *@
+                @*     </div> *@
+                @* } *@
+            </div>
+        </div>
     </div>
-</div>
+</section>
